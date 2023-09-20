@@ -9,4 +9,3 @@ this repo is a clone of
 ![Alt text](<../../Pictures/Screenshot from 2023-09-19 15-43-56.png>)
 
 ## Activity 2
-
