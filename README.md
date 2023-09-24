@@ -11,3 +11,7 @@ this repo is a clone of
 ## Activity 2
 
 ![image](https://github.com/ghamr/ECE444-F2023-Lab1/assets/50636897/2bc10065-583a-4ea8-b069-f3f5bc18cb1b)
+
+## Activity 3
+
+![image](https://github.com/ghamr/ECE444-F2023-Lab1/assets/50636897/553e6e14-05d0-49da-a7a3-7f0062ef3190)
