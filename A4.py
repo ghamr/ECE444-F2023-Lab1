@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 
 
 def at_validator(form, field):
-       if 'x' not in field.data:
+       if '@' not in field.data:
             raise ValidationError(f"Please include an \'@\' in the email address \'{field.data}\' is missing an \'@\'")
 
 class nameform(flaskform):
