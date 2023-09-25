@@ -3,8 +3,8 @@ from flask_bootstrap import Bootstrap as b
 from flask_moment import Moment as m
 from datetime import datetime as dt
 from flask_wtf import FlaskForm as flaskform
-from wtforms import SearchField as stringfield, SubmitField as submitfield
-from wtforms.validators import DataRequired as datarequired
+from wtforms import SearchField as stringfield, SubmitField as submitfield, ValidationError
+from wtforms.validators import DataRequired as datarequired, Email as mail, Regexp as regexp
 
 app = f(__name__)
 bootstrap = b(app)
@@ -12,10 +12,16 @@ moment = m(app)
 app.config['SECRET_KEY'] = 'hard to guess string'
 
 
-class nameform(flaskform):
-    name = stringfield('What is your name?', validators=[datarequired()])
-    submit = submitfield('Submit')
 
+def at_validator(form, field):
+       if 'x' not in field.data:
+            raise ValidationError(f"Please include an \'@\' in the email address \'{field.data}\' is missing an \'@\'")
+
+class nameform(flaskform):
+    
+    name = stringfield('What is your name?', validators=[datarequired(message='fill this field please and thank you')])
+    email = stringfield('What is your UofT Email address?', validators=[datarequired(), mail(), at_validator])
+    submit = submitfield('Submit')
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = nameform()
@@ -29,16 +35,20 @@ def index():
         ###which would submit a duplicate form and is generally responsible for weird unwanted behaviour. 
         #note: should almost always redirect post requests
         old_name = session.get('name')
+        old_email = session.get('email')
         if old_name is not None and old_name != form.name.data:
-            flash('looks like you have changed your name!')
+            flash('Looks like you have changed your name!')
+        if old_email is not None and old_email != form.email.data:
+            flash('Looks like you have changed your email!')
+            
         session['name'] = form.name.data
+        session['email'] = form.email.data
         #the above replaces name = form.name.data
-        form.name.date = ''
         return redirect(url_for('index'))
         #comments from ch.4
         #because we now have the name variable stored in the session,
         #that is what we need to return in case there are no new submit request (validate_on_submit fails)
-    return r('index.html', form=form, name=session.get('name'), current_time=dt.utcnow())
+    return r('index.html', form=form, name=session.get('name'), current_time=dt.utcnow(), email=session.get('email'))
 
 @app.route('/user/<name>')
 def user(name):
