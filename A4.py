@@ -12,7 +12,9 @@ moment = m(app)
 app.config['SECRET_KEY'] = 'hard to guess string'
 
 
-
+#this is the way you would define a custom validator
+#this was created by imitating this stack overflow post:
+# https://stackoverflow.com/questions/50327174/custom-validators-in-wtforms-using-flask
 def at_validator(form, field):
        if '@' not in field.data:
             raise ValidationError(f"Please include an \'@\' in the email address \'{field.data}\' is missing an \'@\'")
