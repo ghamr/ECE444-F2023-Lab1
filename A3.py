@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap as b
 from flask_moment import Moment as m
 from datetime import datetime as dt
 
+
 app = f(__name__)
 bootstrap = b(app)
 moment = m(app)
